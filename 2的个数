@@ -1,0 +1,44 @@
+**问题描述：**请编写一个方法，输出0到n（包括n）中数字出现了几次。
+问题分析：
+以算百位上2为例子:   假设百位上是0, 2, 和 >=3三种情况: 
+    case 1: n=4241092, a= 42410, b=92. 计算百位上2的个数应该为 4241 *100 次
+    case 2: n=4241292, a= 42411, b=92. 计算百位上2的个数应该为 4241 *100 + (92+1) 次. 
+    case 3: n=4241592, a= 42415, b=92. 计算百位上2的个数应该为 (4241+1) *100 次.
+以上三种情况可以用 一个公式概括:
+(a+7)/10*x+(a%10==2)*(b+1);//
+————————————————
+
+```java```
+public class aboutBit {
+	public static void main(String[] args) {
+		aboutBit test = new aboutBit();
+		System.out.println(test.countNumberOf2s(30));
+	}
+	
+	 public int countNumberOf2s(int n) {
+	      int count = 0;
+	      for(int i = 1; i <=n; i*= 10) {
+	    	  int a = n/i;
+	    	  int b = n%i;
+	    	  //之所以补8，是因为当百位为0，则a/10==(a+8)/10，
+	    	  //当百位>=2，补8会产生进位位，效果等同于(a/10+1)
+	    	  count += (a + 7) / 10 * i + ((a % 10 == 2) ? b + 1 : 0);
+	      }
+	      return count;
+    }
+}
+
+————————————————————————
+将问题扩展到任意一个数字出现了几次
+public int countNumberOfAny(int n, int temp) {
+	      int count = 0;
+	      for(int i = 1; i <=n; i*= 10) {
+	    	  int a = n/i;
+	    	  int b = n%i;
+	    	  //之所以补8，是因为当百位为0，则a/10==(a+8)/10，
+	    	  //当百位>=2，补8会产生进位位，效果等同于(a/10+1)
+	    	  count += (a + 7) / 10 * i + ((a % 10 == temp) ? b + 1 : 0);
+	      }
+	      return count;
+   }
+
